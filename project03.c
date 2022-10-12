@@ -194,14 +194,19 @@ int main (int argc, char *argv[]) {
 			fscanf(stdin, "%d %d", &r, &c);
 			if ((board[r][c] == '_') && (r >= 0) && (r < 3) && (c >= 0) && (c < 3)) {			// check if player move is valid
 				board[r][c] = 'X';
-				if (gameDone != -1)
+				if (findWinner(board) == -10 || findWinner(board) == 0) {						// check if player move ends the game
+					gameDone = findWinner(board);
 					break;
+				}
 				findBestMove(board, 'O', &r, &c);
 				board[r][c] = 'O';
 				printf("O moves to %d %d\n", r, c);
-				printBoard(board);
-				gameDone = findWinner(board);
-			} else {
+				if (findWinner(board) == 10 || findWinner(board) == 0) {						// check if computer move ends the game
+					gameDone = findWinner(board);
+					break;
+				}
+				printBoard(board);	
+			} else {								
 				printf("invalid move\n");
 				break;
 			}
